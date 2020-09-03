@@ -47,7 +47,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
         [#3210](https://github.com/PyTorchLightning/pytorch-lightning/pull/3210))
    * reduced accelerator selection ([#3211](https://github.com/PyTorchLightning/pytorch-lightning/pull/3211))
    * group prepare data hook ([#3212](https://github.com/PyTorchLightning/pytorch-lightning/pull/3212))
+   * added data connector ([#3285](https://github.com/PyTorchLightning/pytorch-lightning/pull/3285))
+   * modular is_overridden ([#3290](https://github.com/PyTorchLightning/pytorch-lightning/pull/3290))
+   * adding `Trainer.tune()` ([#3293](https://github.com/PyTorchLightning/pytorch-lightning/pull/3293))
+   * move `run_pretrain_routine` -> `setup_training` ([#3294](https://github.com/PyTorchLightning/pytorch-lightning/pull/3294))
+   * move train outside of setup training ([#3297](https://github.com/PyTorchLightning/pytorch-lightning/pull/3297))
+   * move prepare_data to data connector ([#3307](https://github.com/PyTorchLightning/pytorch-lightning/pull/3307))
+   * moved accelerator router ([#3309](https://github.com/PyTorchLightning/pytorch-lightning/pull/3309))
+   * train loop refactor - moving train loop to own object ([#3310](https://github.com/PyTorchLightning/pytorch-lightning/pull/3310),
+        [#3312](https://github.com/PyTorchLightning/pytorch-lightning/pull/3312),
+        [#3313](https://github.com/PyTorchLightning/pytorch-lightning/pull/3313),
+        [#3314](https://github.com/PyTorchLightning/pytorch-lightning/pull/3314))
 
+- Renaming of precision recall metric ([#3308](https://github.com/PyTorchLightning/pytorch-lightning/pull/3308))
 
 ### Deprecated
 
@@ -71,6 +83,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 - Fixed invalid paths when remote logging with TensorBoard ([#3236](https://github.com/PyTorchLightning/pytorch-lightning/pull/3236))
 
+- Fixed change `t()` to `transpose()` as XLA devices do not support `.t()` on 1-dim tensor ([#3252](https://github.com/PyTorchLightning/pytorch-lightning/pull/3252))
+
+- Fixed (weights only) checkpoints loading without PL ([#3287](https://github.com/PyTorchLightning/pytorch-lightning/pull/3287))
 
 ## [0.9.0] - 2020-08-20
 
