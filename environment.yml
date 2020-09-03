@@ -48,6 +48,7 @@ dependencies:
     - pillow<7.0.0
     - scikit-image
     - nltk>=3.3
+    - tensorboard >=2.2.0
 
     # Optional
     - nvidia-apex
