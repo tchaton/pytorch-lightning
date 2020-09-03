@@ -22,8 +22,6 @@ import torch
 import torch.distributed as torch_distrib
 from torch.utils.data import DataLoader
 
-from pytorch_lightning.accelerators import (
-    GPUBackend, TPUBackend, CPUBackend, DDPSpawnBackend, DataParallelBackend, DDPBackend, DDP2Backend, HorovodBackend)
 from pytorch_lightning.callbacks import Callback, EarlyStopping, ModelCheckpoint
 from pytorch_lightning.core.datamodule import LightningDataModule
 from pytorch_lightning.core.lightning import LightningModule
@@ -53,9 +51,12 @@ from pytorch_lightning.trainer.training_tricks import TrainerTrainingTricksMixin
 from pytorch_lightning.utilities import parsing, rank_zero_info, rank_zero_only, rank_zero_warn, AMPType
 from pytorch_lightning.utilities.debugging import InternalDebugger
 from pytorch_lightning.utilities.exceptions import MisconfigurationException
-from pytorch_lightning.utilities.cloud_io import is_remote_path
+from pytorch_lightning.utilities.cloud_io import get_filesystem
 from pytorch_lightning.trainer.evaluate_loop import EvaluationLoop
 from pytorch_lightning.trainer.data_connector import DataConnector
+from pytorch_lightning.accelerators.accelerator_connector import AcceleratorConnector
+from pytorch_lightning.trainer.training_loop_temp import TrainLoop
+
 from pytorch_lightning.utilities.model_utils import is_overridden
 
 # warnings to ignore in trainer
@@ -232,7 +233,7 @@ class Trainer(
 
             num_nodes: number of GPU nodes for distributed training.
 
-            gpus: Which GPUs to train on.
+            gpus: number of gpus to train on (int) or which GPUs to train on (list or str) applied per node
 
             auto_select_gpus:
 
@@ -610,10 +611,12 @@ class Trainer(
         self.dev_debugger = InternalDebugger(self)
         self.config_validator = ConfigValidator(self)
         self.data_connector = DataConnector(self)
+        self.accelerator_connector = AcceleratorConnector(self)
         self.accelerator_backend = None
 
         # loops
         self.evaluation_loop = EvaluationLoop(self)
+        self.train_loop = TrainLoop(self)
 
         # Callback system
         self.on_init_end()
@@ -912,10 +915,9 @@ class Trainer(
         The default location to save artifacts of loggers, checkpoints etc.
         It is used as a fallback if logger or checkpoint callback do not define specific save paths.
         """
-        if is_remote_path(self._default_root_dir):
-            # it is a remote uri, use as is
-            return self._default_root_dir
-        return os.path.normpath(self._default_root_dir)
+        if get_filesystem(self._default_root_dir).protocol == "file":
+            return os.path.normpath(self._default_root_dir)
+        return self._default_root_dir
 
     @property
     def weights_save_path(self) -> str:
@@ -923,10 +925,9 @@ class Trainer(
         The default root location to save weights (checkpoints), e.g., when the
         :class:`~pytorch_lightning.callbacks.model_checkpoint.ModelCheckpoint` does not define a file path.
         """
-        if is_remote_path(self._weights_save_path):
-            # it is a remote uri, use as is
-            return self._weights_save_path
-        return os.path.normpath(self._weights_save_path)
+        if get_filesystem(self._weights_save_path).protocol == "file":
+            return os.path.normpath(self._weights_save_path)
+        return self._weights_save_path
 
     def tune(
         self,
@@ -944,13 +945,19 @@ class Trainer(
         self.call_hook('on_fit_start', model)
 
         # hook
-        self.prepare_data(model)
+        self.data_connector.prepare_data(model)
 
         # Run auto batch size scaling
         if self.auto_scale_batch_size:
             if isinstance(self.auto_scale_batch_size, bool):
                 self.auto_scale_batch_size = 'power'
-            self.scale_batch_size(model, mode=self.auto_scale_batch_size)
+            self.scale_batch_size(
+                model,
+                mode=self.auto_scale_batch_size,
+                train_dataloader=train_dataloader,
+                val_dataloaders=val_dataloaders,
+                datamodule=datamodule,
+            )
             model.logger = self.logger  # reset logger binding
 
         # Run learning rate finder:
@@ -1014,7 +1021,7 @@ class Trainer(
         self.call_hook('on_fit_start', model)
 
         # hook
-        self.prepare_data(model)
+        self.data_connector.prepare_data(model)
 
         # set testing if set in environ
         self.testing = os.environ.get('PL_TESTING_MODE', self.testing)
@@ -1022,7 +1029,7 @@ class Trainer(
         # -------------------------
         # TRAIN
         # -------------------------
-        self.accelerator_backend = self.select_accelerator()
+        self.accelerator_backend = self.accelerator_connector.select_accelerator()
         self.accelerator_backend.setup(model)
         results = self.accelerator_backend.train()
         self.accelerator_backend.teardown()
@@ -1055,68 +1062,6 @@ class Trainer(
 
         # check that model is configured correctly
         self.config_validator.verify_loop_configurations(model)
-
-    def prepare_data(self, model):
-        # on multi-gpu jobs we only want to manipulate (download, etc) on node_rank=0, local_rank=0
-        # or in the case where each node needs to do its own manipulation in which case just local_rank=0
-        if self.can_prepare_data():
-            if self.datamodule is not None:
-                self.datamodule.prepare_data()
-            model.prepare_data()
-            self._is_data_prepared = True
-
-    def select_accelerator(self):
-        # SLURM ddp
-        use_slurm_ddp = self.use_ddp and self.is_slurm_managing_tasks
-
-        # torchelastic or general non_slurm ddp
-        te_flags_passed = 'WORLD_SIZE' in os.environ and ('GROUP_RANK' in os.environ or 'NODE_RANK' in os.environ)
-        use_torchelastic_ddp = self.use_ddp and te_flags_passed
-
-        use_ddp_spawn = self.use_ddp and self.distributed_backend in ['ddp_cpu', 'ddp_spawn']
-
-        # choose the appropriate accelerator backend
-        if self.use_ddp2:
-            accelerator_backend = DDP2Backend(self)
-
-        elif use_slurm_ddp:
-            accelerator_backend = DDPBackend(self, mode='slurm_ddp')
-
-        elif use_torchelastic_ddp:
-            accelerator_backend = DDPBackend(self, mode='torchelastic_ddp')
-
-        elif use_ddp_spawn:
-            accelerator_backend = DDPSpawnBackend(self, nprocs=self.num_processes)
-
-        elif self.distributed_backend == 'ddp':
-            accelerator_backend = DDPBackend(self, mode='ddp')
-
-        elif self.use_dp:
-            accelerator_backend = DataParallelBackend(self)
-
-        elif self.use_horovod:
-            accelerator_backend = HorovodBackend(self)
-
-        elif self.use_single_gpu:
-            accelerator_backend = GPUBackend(self)
-
-        elif self.use_tpu:
-            accelerator_backend = TPUBackend(self)
-
-        else:
-            accelerator_backend = CPUBackend(self)
-
-        return accelerator_backend
-
-    def can_prepare_data(self):
-        should_call_dm_prepare_data = True
-        if self.datamodule is not None and is_overridden('prepare_data', self.datamodule):
-            should_call_dm_prepare_data = not self.datamodule.has_prepared_data
-
-        if self.prepare_data_per_node:
-            return self.local_rank == 0 and should_call_dm_prepare_data
-        else:
-            return self.node_rank == 0 and self.local_rank == 0 and should_call_dm_prepare_data
 
     def setup_training(self, model: LightningModule):
         """Sanity check a few things before starting actual training.
