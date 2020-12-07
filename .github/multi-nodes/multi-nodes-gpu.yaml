@@ -32,10 +32,15 @@ spec:
                 pip install torchelastic
                 export PL_RUNNING_SPECIAL_TESTS=1
                 DEFAULTS="-m torchelastic.distributed.launch --nnodes=2 --nproc_per_node={NUM_GPUS} --rdzv_id=s-{SHA}-{PYTHON_VERSION_DASH}-{PYTORCH_VERSION_DASH}-e --rdzv_backend=etcd --rdzv_endpoint={TCP_ADDRESS} -m coverage run --source pytorch_lightning -a -m pytest --verbose --capture=no"
+                
+                # special tests list
                 python ${DEFAULTS} ./tests/backends/test_multi_nodes_gpu.py::test_logging_sync_dist_true_cpu
+                # special tests list
+                
                 echo "\n||| END PYTEST LOGS |||\n"
                 coverage xml
                 cat coverage.xml | tr -d '\t'
+                echo "\n||| TEST END |||\n"
               resources:
                 limits:
                   nvidia.com/gpu: {NUM_GPUS}

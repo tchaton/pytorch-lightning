@@ -40,13 +40,13 @@ def test_logging_sync_dist_true_cpu(tmpdir):
     class TestModel(BoringModel):
         def training_step(self, batch, batch_idx):
             acc = self.step(batch[0])
-            self.log('foo', torch.tensor(fake_result), on_step=False, on_epoch=True, sync_dist=True, sync_dist_op='sum')
+            self.log('foo', torch.tensor(fake_result), on_step=False, on_epoch=True, sync_dist=True)
             return acc
 
         def validation_step(self, batch, batch_idx):
             output = self.layer(batch)
             loss = self.loss(batch, output)
-            self.log('bar', torch.tensor(fake_result), on_step=False, on_epoch=True, sync_dist=True, sync_dist_op='sum')
+            self.log('bar', torch.tensor(fake_result), on_step=False, on_epoch=True, sync_dist=True)
             return {"x": loss}
 
     model = TestModel()
