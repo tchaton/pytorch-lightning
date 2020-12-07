@@ -26,8 +26,8 @@ env:
   NODES: 2
   NUM_GPUS: 1
   REGION: us-east-2
-  MAX_CHECKS: 20
-  CHECK_SPEEP: 5
+  MAX_CHECKS: 300
+  CHECK_SPEEP: 2
 
 jobs:
   setup-build-test-publish:
@@ -146,6 +146,12 @@ jobs:
       run: |
         kubectl apply -f .github/multi-nodes/multi-nodes-gpu.yaml
       shell: bash
+
+    - name: Wait
+      if: always()
+      shell: bash
+      run: |
+        sleep 5
 
     - name: Listen to Jobs Logging
       shell: bash
