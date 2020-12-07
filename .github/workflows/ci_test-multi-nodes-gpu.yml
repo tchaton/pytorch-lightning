@@ -156,7 +156,7 @@ jobs:
     - name: Listen to Jobs Logging
       shell: bash
       run: |
-        while [ $i -lt $MAX_CHECKS ]; do ((i++)); if kubectl logs ${{ steps.job.outputs.ID }}-worker-0 -n elastic-job | grep -i "error\|failed"; then status_code=1 && break; elif kubectl logs ${{ steps.job.outputs.ID }}-worker-0 -n elastic-job | grep "||| END PYTEST LOGS |||" ; then status_code=0 && break; else printf "." ; fi; sleep $CHECK_SPEEP; done && \
+        while [ $i -lt $MAX_CHECKS ]; do ((i++)); if kubectl logs ${{ steps.job.outputs.ID }}-worker-0 -n elastic-job | grep -i "error|failed"; then status_code=1 && break; elif kubectl logs ${{ steps.job.outputs.ID }}-worker-0 -n elastic-job | grep "END PYTEST LOGS" ; then status_code=0 && break; else printf "." ; fi; sleep $CHECK_SPEEP; done && \
         echo "Done waiting. Job status code: $status_code" && \
         exit $status_code
 
