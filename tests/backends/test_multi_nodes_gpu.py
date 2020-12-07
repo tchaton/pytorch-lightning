@@ -31,7 +31,7 @@ from tests.base.boring_model import *
 
 
 @pytest.mark.skipif(not os.getenv("PL_RUNNING_SPECIAL_TESTS", '0') == '1', reason="test should be run outside of pytest")
-def test_logging_sync_dist_true_cpu(tmpdir):
+def test_logging_sync_dist_true_ddp(tmpdir):
     """
     Tests to ensure that the sync_dist flag works with CPU (should just return the original value)
     """

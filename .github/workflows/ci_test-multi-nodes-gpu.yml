@@ -156,9 +156,9 @@ jobs:
     - name: Listen to Jobs Logging
       shell: bash
       run: |
-        # while [ $i -lt $MAX_CHECKS ]; do ((i++)); if kubectl logs ${{ steps.job.outputs.ID }}-worker-0 -n elastic-job | grep -i "error\|failed"; then status_code=1 && break; elif kubectl logs ${{ steps.job.outputs.ID }}-worker-0 -n elastic-job | grep "TEST END"; then status_code=0 && break; else printf "." ; fi; sleep $CHECK_SPEEP; done && \
+        # while [ $i -lt $MAX_CHECKS ]; do ((i++)); if kubectl logs ${{ steps.job.outputs.ID_NAME }}-worker-0 -n elastic-job | grep -i "error\|failed"; then status_code=1 && break; elif kubectl logs ${{ steps.job.outputs.ID }}-worker-0 -n elastic-job | grep "TEST END"; then status_code=0 && break; else printf "." ; fi; sleep $CHECK_SPEEP; done && \
         # echo "Done waiting. Job status code: $status_code" && \
-        kubectl logs ${{ steps.job.outputs.ID }}-worker-0 -n elastic-job > /tmp/full_output.txt
+        kubectl logs ${{ steps.job.outputs.ID_NAME }}-worker-0 -n elastic-job > /tmp/full_output.txt
         if grep -q '<?xml version="1.0" ?>' /tmp/full_output.txt ; then csplit /tmp/full_output.txt '/<?xml version="1.0" ?>/'; else mv /tmp/full_output.txt xx00; fi && \
         cat xx00
 
