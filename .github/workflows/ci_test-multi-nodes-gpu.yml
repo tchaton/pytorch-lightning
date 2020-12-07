@@ -147,12 +147,6 @@ jobs:
         kubectl apply -f .github/multi-nodes/multi-nodes-gpu.yaml
       shell: bash
 
-    - name: Wait
-      if: always()
-      shell: bash
-      run: |
-        sleep 120
-
     - name: Listen to Jobs Logging
       shell: bash
       run: |
