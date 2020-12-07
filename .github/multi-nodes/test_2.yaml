@@ -31,6 +31,7 @@ spec:
                 pip install -e .
                 pip install torchelastic
                 python -m torchelastic.distributed.launch --nnodes=2 --nproc_per_node=1 --rdzv_id=test-0 --rdzv_backend=etcd --rdzv_endpoint=10.100.121.241:2379 ./multi_node_tests/test_multi_nodes_gpu.py --num_nodes=2 --gpus=1 --accelerator=ddp --max_epochs 2
+                echo "\n||| END PYTEST LOGS |||\n"
               resources:
                 limits:
                   nvidia.com/gpu: 1

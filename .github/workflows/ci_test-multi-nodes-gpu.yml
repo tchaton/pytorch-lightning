@@ -26,7 +26,7 @@ env:
   NODES: 2
   NUM_GPUS: 1
   REGION: us-east-2
-  MAX_CHECKS: 360
+  MAX_CHECKS: 20
   CHECK_SPEEP: 5
 
 jobs:
@@ -79,6 +79,7 @@ jobs:
       shell: bash
       run: |
         echo "::set-output name=ID::$(echo '${{ steps.vars.outputs.SHA }}-${{ matrix.python-version }}-${{ matrix.pytorch-version }}' | tr . - )"
+        echo "::set-output name=ID_NAME::$(echo 's-${{ steps.vars.outputs.SHA }}-${{ matrix.python-version }}-${{ matrix.pytorch-version }}-e' | tr . - )"
         echo "::set-output name=PYTHON_VERSION_DASH::$(echo '${{ matrix.python-version }}' | tr . - )"
         echo "::set-output name=PYTORCH_VERSION_DASH::$(echo '${{ matrix.pytorch-version }}' | tr . - )"
     
@@ -128,7 +129,7 @@ jobs:
       if: always()
       shell: bash
       run: |
-        sleep 59
+        sleep 5
 
     - name: Find ETCD TCP Address
       id: tcp
@@ -148,17 +149,22 @@ jobs:
 
     - name: Listen to Jobs Logging
       shell: bash
-      run: |
-        kubectl get pods -n elastic-job
-
-    - name: Wait
-      if: always()
       shell: bash
       run: |
-        sleep 698
+        while [ $i -lt $MAX_CHECKS ]; do ((i++)); if kubectl logs ${{ steps.job.outputs.ID_NAME }}-worker-0 -n elastic-job | grep "||| END PYTEST LOGS |||"; then status_code=1 && break; elif kubectl get jobs $job_name -o jsonpath='Succeeded:{.status.succeeded}' | grep "Succeeded:1" ; then status_code=0 && break; else printf "." ; fi; sleep $CHECK_SPEEP; done && \
+        echo "Done waiting. Job status code: $status_code" && \
+        pod_name=$(kubectl get po -l controller-uid=`kubectl get job $job_name -o "jsonpath={.metadata.labels.controller-uid}"` | awk 'match($0,!/NAME/) {print $1}') && \
+        echo "GKE pod name: $pod_name" && \
+        kubectl logs -f $pod_name --container=train > /tmp/full_output.txt
+        if grep -q '<?xml version="1.0" ?>' /tmp/full_output.txt ; then csplit /tmp/full_output.txt '/<?xml version="1.0" ?>/'; else mv /tmp/full_output.txt xx00; fi && \
+        # First portion is the test logs. Print these to Github Action stdout.
+        cat xx00 && \
+        echo "Done with log retrieval attempt." && \
+        gcloud container images delete "$IMAGE:$IMAGETAG" --force-delete-tags && \
+        exit $status_code
 
     - name: Delete Group Node
       if: always()
       run: |
-       kubectl delete  ElasticJob ${{ steps.job.outputs.ID }} -n elastic-job
+       kubectl delete  ElasticJob ${{ steps.job.outputs.ID_NAME }} -n elastic-job
        eksctl delete nodegroup ${{ steps.job.outputs.ID }} --cluster=$AWS_CLUSTER
