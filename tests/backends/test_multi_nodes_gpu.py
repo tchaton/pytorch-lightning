@@ -32,7 +32,7 @@ def multi_node_testing(tmpdir):
     parser = ArgumentParser()
     parser.add_argument('--batch_size', default=32, type=int)
     parser = pl.Trainer.add_argparse_args(parser)
-    args = parser.parse_args("--num_nodes=2 --gpus=1 --accelerator=ddp --max_epochs 2".split(" "))
+    args = parser.parse_args("--num_nodes 2 --gpus 1 --accelerator ddp --max_epochs 2".split(" "))
     model = BoringModel()
     trainer = pl.Trainer.from_argparse_args(args)
     trainer.fit(model)
