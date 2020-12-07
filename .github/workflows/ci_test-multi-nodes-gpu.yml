@@ -149,18 +149,9 @@ jobs:
 
     - name: Listen to Jobs Logging
       shell: bash
-      shell: bash
       run: |
-        while [ $i -lt $MAX_CHECKS ]; do ((i++)); if kubectl logs ${{ steps.job.outputs.ID_NAME }}-worker-0 -n elastic-job | grep "||| END PYTEST LOGS |||"; then status_code=1 && break; elif kubectl get jobs $job_name -o jsonpath='Succeeded:{.status.succeeded}' | grep "Succeeded:1" ; then status_code=0 && break; else printf "." ; fi; sleep $CHECK_SPEEP; done && \
+        while [ $i -lt $MAX_CHECKS ]; do ((i++)); if kubectl logs ${{ steps.job.outputs.ID }}-worker-0 -n elastic-job | grep -i "error\|failed"; then status_code=1 && break; elif kubectl logs ${{ steps.job.outputs.ID }}-worker-0 -n elastic-job | grep "||| END PYTEST LOGS |||" ; then status_code=0 && break; else printf "." ; fi; sleep $CHECK_SPEEP; done && \
         echo "Done waiting. Job status code: $status_code" && \
-        pod_name=$(kubectl get po -l controller-uid=`kubectl get job $job_name -o "jsonpath={.metadata.labels.controller-uid}"` | awk 'match($0,!/NAME/) {print $1}') && \
-        echo "GKE pod name: $pod_name" && \
-        kubectl logs -f $pod_name --container=train > /tmp/full_output.txt
-        if grep -q '<?xml version="1.0" ?>' /tmp/full_output.txt ; then csplit /tmp/full_output.txt '/<?xml version="1.0" ?>/'; else mv /tmp/full_output.txt xx00; fi && \
-        # First portion is the test logs. Print these to Github Action stdout.
-        cat xx00 && \
-        echo "Done with log retrieval attempt." && \
-        gcloud container images delete "$IMAGE:$IMAGETAG" --force-delete-tags && \
         exit $status_code
 
     - name: Delete Group Node
