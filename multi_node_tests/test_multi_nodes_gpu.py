@@ -40,6 +40,7 @@ def cli_main():
 
     trainer = pl.Trainer.from_argparse_args(args)
     trainer.fit(model)
+    print("FINISHED")
 
 if __name__ == '__main__':
     cli_main()

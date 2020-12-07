@@ -5,7 +5,7 @@ metadata:
   namespace: elastic-job
 spec:
   # Use "etcd-service:2379" if you already apply etcd.yaml
-  rdzvEndpoint: etcd://{TCP_ADDRESS}/s-{SHA}-{PYTHON_VERSION_DASH}-{PYTORCH_VERSION_DASH}-e
+  rdzvEndpoint: etcd://{TCP_ADDRESS}/s-{SHA}-{PYTHON_VERSION_DASH}-{PYTORCH_VERSION_DASH}-e?min_workers=2&max_workers=2
   minReplicas: 2
   maxReplicas: 2
   replicaSpecs:
@@ -30,7 +30,7 @@ spec:
                 git checkout {SHA}
                 pip install -e .
                 pip install torchelastic
-                python -m torchelastic.distributed.launch --nproc_per_node={NUM_GPUS} --rdzv_id=s-{SHA}-{PYTHON_VERSION_DASH}-{PYTORCH_VERSION_DASH}-e --rdzv_backend=etcd --rdzv_endpoint={TCP_ADDRESS} ./multi_node_tests/test_multi_nodes_gpu.py --num_nodes=2 --gpus=1 --accelerator=ddp --max_epochs 2
+                python -m torchelastic.distributed.launch --nnodes=2 --nproc_per_node={NUM_GPUS} --rdzv_id=s-{SHA}-{PYTHON_VERSION_DASH}-{PYTORCH_VERSION_DASH}-e --rdzv_backend=etcd --rdzv_endpoint={TCP_ADDRESS} ./multi_node_tests/test_multi_nodes_gpu.py --num_nodes=2 --gpus=1 --accelerator=ddp --max_epochs 2
                 echo "\n||| END PYTEST LOGS |||\n"
               resources:
                 limits:

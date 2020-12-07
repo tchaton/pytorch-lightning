@@ -160,4 +160,5 @@ jobs:
     - name: Delete Group Node
       if: always()
       run: |
+       kubectl delete  ElasticJob ${{ steps.job.outputs.ID }} -n elastic-job
        eksctl delete nodegroup ${{ steps.job.outputs.ID }} --cluster=$AWS_CLUSTER
