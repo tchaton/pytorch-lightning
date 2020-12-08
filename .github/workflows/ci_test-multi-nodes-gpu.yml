@@ -83,6 +83,7 @@ jobs:
       shell: bash
       run: |
         echo "::set-output name=SHA::$(git rev-parse --short HEAD)"
+        echo $PWD
 
     - name: Create Job Name
       id: job
