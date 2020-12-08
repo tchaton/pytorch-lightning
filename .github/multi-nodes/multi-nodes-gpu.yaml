@@ -41,7 +41,7 @@ spec:
 
                 # special tests list
                 
-                echo "\n||| END PYTEST LOGS |||\n"
+                echo "END_TOKEN"
                 cat .coverage | base64
               resources:
                 limits:
