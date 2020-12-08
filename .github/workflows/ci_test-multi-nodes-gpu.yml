@@ -151,7 +151,7 @@ jobs:
       if: always()
       shell: bash
       run: |
-        sleep 120
+        sleep 70
 
     - name: Listen to Jobs Logging
       shell: bash
@@ -167,15 +167,17 @@ jobs:
       if: success()
       run: |
         mv ./xx01 coverage
-        python -m pip install coverage
-        coverage report
+        # TODO: add human readable report
+        cat coverage
+        #  sudo pip install pycobertura
+        #  pycobertura show coverage.xml
 
     - name: Upload coverage results
       uses: actions/upload-artifact@v2
       with:
-        name: coverage-multi-nodes
+        name: coverage-TPU
         path: coverage
-  
+
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       # see: https://github.com/actions/toolkit/issues/399
@@ -184,8 +186,8 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: coverage
-        flags: multi-nodes,pytest
-        name: multi-nodes-coverage
+        flags: tpu,pytest
+        name: TPU-coverage
         fail_ci_if_error: true
 
     - name: Delete Group Node
