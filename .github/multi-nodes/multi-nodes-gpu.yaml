@@ -38,11 +38,9 @@ spec:
                 # special tests list
                 python ${DEFAULTS_FIRST} ./tests/backends/test_multi_nodes_gpu.py::test_logging_sync_dist_true_ddp
                 python ${DEFAULTS_AFTER} ./tests/backends/test_multi_nodes_gpu.py::test__validation_step__log
-
                 # special tests list
-
+                
                 coverage report
-
                 echo "\n||| END PYTEST LOGS |||\n"
                 cat .coverage | base64
               resources:
