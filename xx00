@@ -1,6 +1,6 @@
-Cloning into '/repo'...
+Cloning into 'pytorch-lightning'...
 Fetching origin
-Note: checking out 'e5897b7'.
+Note: checking out '4e06771'.
 
 You are in 'detached HEAD' state. You can look around, make experimental
 changes and commit them, and you can discard any commits you make in this
@@ -11,40 +11,40 @@ do so (now or later) by using -b with the checkout command again. Example:
 
   git checkout -b <new-branch-name>
 
-HEAD is now at e5897b73 i
-Obtaining file:///repo
+HEAD is now at 4e067714 i
+Obtaining file:///pytorch-lightning
   Installing build dependencies: started
   Installing build dependencies: finished with status 'done'
   Getting requirements to build wheel: started
   Getting requirements to build wheel: finished with status 'done'
     Preparing wheel metadata: started
     Preparing wheel metadata: finished with status 'done'
-Requirement already satisfied: PyYAML>=5.1 in /usr/local/lib/python3.7/dist-packages (from pytorch-lightning==1.0.4) (5.3.1)
-Requirement already satisfied: numpy>=1.16.4 in /usr/local/lib/python3.7/dist-packages (from pytorch-lightning==1.0.4) (1.19.4)
 Requirement already satisfied: fsspec>=0.8.0 in /usr/local/lib/python3.7/dist-packages (from pytorch-lightning==1.0.4) (0.8.4)
+Requirement already satisfied: tqdm>=4.41.0 in /usr/local/lib/python3.7/dist-packages (from pytorch-lightning==1.0.4) (4.54.0)
+Requirement already satisfied: PyYAML>=5.1 in /usr/local/lib/python3.7/dist-packages (from pytorch-lightning==1.0.4) (5.3.1)
+Requirement already satisfied: tensorboard>=2.2.0 in /usr/local/lib/python3.7/dist-packages (from pytorch-lightning==1.0.4) (2.4.0)
+Requirement already satisfied: numpy>=1.16.4 in /usr/local/lib/python3.7/dist-packages (from pytorch-lightning==1.0.4) (1.19.4)
 Requirement already satisfied: future>=0.17.1 in /usr/local/lib/python3.7/dist-packages (from pytorch-lightning==1.0.4) (0.18.2)
 Requirement already satisfied: torch<1.8,>=1.3 in /usr/local/lib/python3.7/dist-packages (from pytorch-lightning==1.0.4) (1.5.1)
-Requirement already satisfied: tensorboard>=2.2.0 in /usr/local/lib/python3.7/dist-packages (from pytorch-lightning==1.0.4) (2.4.0)
-Requirement already satisfied: tqdm>=4.41.0 in /usr/local/lib/python3.7/dist-packages (from pytorch-lightning==1.0.4) (4.54.0)
-Requirement already satisfied: wheel>=0.26 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (0.36.0)
-Requirement already satisfied: protobuf>=3.6.0 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (3.14.0)
 Requirement already satisfied: six>=1.10.0 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (1.15.0)
-Requirement already satisfied: google-auth-oauthlib<0.5,>=0.4.1 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (0.4.2)
-Requirement already satisfied: requests<3,>=2.21.0 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (2.25.0)
-Requirement already satisfied: markdown>=2.6.8 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (3.3.3)
-Requirement already satisfied: tensorboard-plugin-wit>=1.6.0 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (1.7.0)
-Requirement already satisfied: absl-py>=0.4 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (0.11.0)
-Requirement already satisfied: numpy>=1.16.4 in /usr/local/lib/python3.7/dist-packages (from pytorch-lightning==1.0.4) (1.19.4)
-Requirement already satisfied: werkzeug>=0.11.15 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (1.0.1)
-Requirement already satisfied: grpcio>=1.24.3 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (1.34.0)
-Requirement already satisfied: google-auth<2,>=1.6.3 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (1.23.0)
 Requirement already satisfied: setuptools>=41.0.0 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (50.3.2)
+Requirement already satisfied: protobuf>=3.6.0 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (3.14.0)
+Requirement already satisfied: absl-py>=0.4 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (0.11.0)
+Requirement already satisfied: werkzeug>=0.11.15 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (1.0.1)
+Requirement already satisfied: wheel>=0.26 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (0.36.0)
+Requirement already satisfied: numpy>=1.16.4 in /usr/local/lib/python3.7/dist-packages (from pytorch-lightning==1.0.4) (1.19.4)
+Requirement already satisfied: requests<3,>=2.21.0 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (2.25.0)
+Requirement already satisfied: tensorboard-plugin-wit>=1.6.0 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (1.7.0)
+Requirement already satisfied: google-auth-oauthlib<0.5,>=0.4.1 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (0.4.2)
+Requirement already satisfied: grpcio>=1.24.3 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (1.34.0)
+Requirement already satisfied: markdown>=2.6.8 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (3.3.3)
+Requirement already satisfied: google-auth<2,>=1.6.3 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (1.23.0)
 Requirement already satisfied: six>=1.10.0 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (1.15.0)
-Requirement already satisfied: rsa<5,>=3.1.4 in /usr/local/lib/python3.7/dist-packages (from google-auth<2,>=1.6.3->tensorboard>=2.2.0->pytorch-lightning==1.0.4) (4.6)
-Requirement already satisfied: six>=1.10.0 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (1.15.0)
-Requirement already satisfied: cachetools<5.0,>=2.0.0 in /usr/local/lib/python3.7/dist-packages (from google-auth<2,>=1.6.3->tensorboard>=2.2.0->pytorch-lightning==1.0.4) (4.1.1)
 Requirement already satisfied: setuptools>=41.0.0 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (50.3.2)
 Requirement already satisfied: pyasn1-modules>=0.2.1 in /usr/local/lib/python3.7/dist-packages (from google-auth<2,>=1.6.3->tensorboard>=2.2.0->pytorch-lightning==1.0.4) (0.2.8)
+Requirement already satisfied: six>=1.10.0 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (1.15.0)
+Requirement already satisfied: cachetools<5.0,>=2.0.0 in /usr/local/lib/python3.7/dist-packages (from google-auth<2,>=1.6.3->tensorboard>=2.2.0->pytorch-lightning==1.0.4) (4.1.1)
+Requirement already satisfied: rsa<5,>=3.1.4 in /usr/local/lib/python3.7/dist-packages (from google-auth<2,>=1.6.3->tensorboard>=2.2.0->pytorch-lightning==1.0.4) (4.6)
 Requirement already satisfied: requests-oauthlib>=0.7.0 in /usr/local/lib/python3.7/dist-packages (from google-auth-oauthlib<0.5,>=0.4.1->tensorboard>=2.2.0->pytorch-lightning==1.0.4) (1.3.0)
 Requirement already satisfied: google-auth<2,>=1.6.3 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (1.23.0)
 Requirement already satisfied: six>=1.10.0 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (1.15.0)
@@ -53,14 +53,14 @@ Requirement already satisfied: zipp>=0.5 in /usr/local/lib/python3.7/dist-packag
 Requirement already satisfied: six>=1.10.0 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (1.15.0)
 Requirement already satisfied: pyasn1<0.5.0,>=0.4.6 in /usr/local/lib/python3.7/dist-packages (from pyasn1-modules>=0.2.1->google-auth<2,>=1.6.3->tensorboard>=2.2.0->pytorch-lightning==1.0.4) (0.4.8)
 Requirement already satisfied: urllib3<1.27,>=1.21.1 in /usr/local/lib/python3.7/dist-packages (from requests<3,>=2.21.0->tensorboard>=2.2.0->pytorch-lightning==1.0.4) (1.26.2)
-Requirement already satisfied: chardet<4,>=3.0.2 in /usr/local/lib/python3.7/dist-packages (from requests<3,>=2.21.0->tensorboard>=2.2.0->pytorch-lightning==1.0.4) (3.0.4)
 Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.7/dist-packages (from requests<3,>=2.21.0->tensorboard>=2.2.0->pytorch-lightning==1.0.4) (2020.11.8)
 Requirement already satisfied: idna<3,>=2.5 in /usr/local/lib/python3.7/dist-packages (from requests<3,>=2.21.0->tensorboard>=2.2.0->pytorch-lightning==1.0.4) (2.10)
-Requirement already satisfied: requests<3,>=2.21.0 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (2.25.0)
+Requirement already satisfied: chardet<4,>=3.0.2 in /usr/local/lib/python3.7/dist-packages (from requests<3,>=2.21.0->tensorboard>=2.2.0->pytorch-lightning==1.0.4) (3.0.4)
 Requirement already satisfied: oauthlib>=3.0.0 in /usr/local/lib/python3.7/dist-packages (from requests-oauthlib>=0.7.0->google-auth-oauthlib<0.5,>=0.4.1->tensorboard>=2.2.0->pytorch-lightning==1.0.4) (3.1.0)
+Requirement already satisfied: requests<3,>=2.21.0 in /usr/local/lib/python3.7/dist-packages (from tensorboard>=2.2.0->pytorch-lightning==1.0.4) (2.25.0)
 Requirement already satisfied: pyasn1<0.5.0,>=0.4.6 in /usr/local/lib/python3.7/dist-packages (from pyasn1-modules>=0.2.1->google-auth<2,>=1.6.3->tensorboard>=2.2.0->pytorch-lightning==1.0.4) (0.4.8)
-Requirement already satisfied: future>=0.17.1 in /usr/local/lib/python3.7/dist-packages (from pytorch-lightning==1.0.4) (0.18.2)
 Requirement already satisfied: numpy>=1.16.4 in /usr/local/lib/python3.7/dist-packages (from pytorch-lightning==1.0.4) (1.19.4)
+Requirement already satisfied: future>=0.17.1 in /usr/local/lib/python3.7/dist-packages (from pytorch-lightning==1.0.4) (0.18.2)
 Installing collected packages: pytorch-lightning
   Running setup.py develop for pytorch-lightning
 Successfully installed pytorch-lightning
@@ -78,25 +78,33 @@ Requirement already satisfied: numpy in /usr/local/lib/python3.7/dist-packages (
 Building wheels for collected packages: python-etcd
   Building wheel for python-etcd (setup.py): started
   Building wheel for python-etcd (setup.py): finished with status 'done'
-  Created wheel for python-etcd: filename=python_etcd-0.4.5-py3-none-any.whl size=38500 sha256=9fde5b3e424754d1b1639b4828b121e22b271e1241b55d716e5377906edce186
-  Stored in directory: /repo/false/wheels/4b/c1/8f/237c058a9a16e922bc31e593f1cd4b210d2070336de2930735
+  Created wheel for python-etcd: filename=python_etcd-0.4.5-py3-none-any.whl size=38500 sha256=8cd61a9ccec163a1486c67c5efc2d48d9c9acdbb33150a01199455d625e6cb21
+  Stored in directory: /pytorch-lightning/false/wheels/4b/c1/8f/237c058a9a16e922bc31e593f1cd4b210d2070336de2930735
 Successfully built python-etcd
 Installing collected packages: dnspython, python-etcd, torchelastic
 Successfully installed dnspython-2.0.0 python-etcd-0.4.5 torchelastic-0.2.0
-[INFO] 2020-12-08 08:27:01,049 launch: Running torchelastic.distributed.launch with args: ['/usr/local/lib/python3.7/dist-packages/torchelastic/distributed/launch.py', '--nnodes=2', '--nproc_per_node=1', '--rdzv_id=s-e5897b7-3-7-1-5-e', '--rdzv_backend=etcd', '--rdzv_endpoint=10.100.121.241:2379', '-m', 'pytest', '--verbose', '--capture=no', './tests/backends/test_multi_nodes_gpu.py::test_logging_sync_dist_true_ddp']
-INFO 2020-12-08 08:27:01,055 Etcd machines: ['http://0.0.0.0:2379']
-[INFO] 2020-12-08 08:27:01,062 launch: Using nproc_per_node=1.
-[INFO] 2020-12-08 08:27:01,692 api: [default] starting workers for function: wrapper_fn
-[INFO] 2020-12-08 08:27:01,692 api: [default] Rendezvous'ing worker group
-INFO 2020-12-08 08:27:01,692 Attempting to join next rendezvous
-INFO 2020-12-08 08:27:01,696 Observed existing rendezvous state: {'status': 'joinable', 'version': '2', 'participants': []}
-INFO 2020-12-08 08:27:01,708 Joined rendezvous version 2 as rank 1. Full state: {'status': 'frozen', 'version': '2', 'participants': [0, 1], 'keep_alives': []}
-INFO 2020-12-08 08:27:01,708 Waiting for remaining peers.
-INFO 2020-12-08 08:27:01,709 All peers arrived. Confirming membership.
-INFO 2020-12-08 08:27:01,740 Waiting for confirmations from all peers.
-INFO 2020-12-08 08:27:01,793 Rendezvous version 2 is complete. Final state: {'status': 'final', 'version': '2', 'participants': [0, 1], 'keep_alives': ['/torchelastic/p2p/run_s-e5897b7-3-7-1-5-e/rdzv/v_2/rank_1', '/torchelastic/p2p/run_s-e5897b7-3-7-1-5-e/rdzv/v_2/rank_0'], 'num_workers_waiting': 0}
-INFO 2020-12-08 08:27:01,793 Creating EtcdStore as the c10d::Store implementation
-[INFO] 2020-12-08 08:27:01,800 api: [default] Rendezvous complete for workers.
+[INFO] 2020-12-08 12:04:51,016 launch: Running torchelastic.distributed.launch with args: ['/usr/local/lib/python3.7/dist-packages/torchelastic/distributed/launch.py', '--nnodes=2', '--nproc_per_node=1', '--rdzv_id=s-e5897b7-3-7-1-5-e', '--rdzv_backend=etcd', '--rdzv_endpoint=10.100.121.241:2379', '-m', 'pytest', '--verbose', '--capture=no', './tests/backends/test_multi_nodes_gpu.py::test_logging_sync_dist_true_ddp']
+INFO 2020-12-08 12:04:51,023 Etcd machines: ['http://0.0.0.0:2379']
+[INFO] 2020-12-08 12:04:51,032 launch: Using nproc_per_node=1.
+[INFO] 2020-12-08 12:04:51,657 api: [default] starting workers for function: wrapper_fn
+[INFO] 2020-12-08 12:04:51,658 api: [default] Rendezvous'ing worker group
+INFO 2020-12-08 12:04:51,658 Attempting to join next rendezvous
+INFO 2020-12-08 12:04:51,663 Observed existing rendezvous state: {'status': 'final', 'version': '62', 'participants': [0, 1], 'keep_alives': ['/torchelastic/p2p/run_s-e5897b7-3-7-1-5-e/rdzv/v_62/rank_1', '/torchelastic/p2p/run_s-e5897b7-3-7-1-5-e/rdzv/v_62/rank_0'], 'num_workers_waiting': 0}
+INFO 2020-12-08 12:04:51,701 Added self to waiting list. Rendezvous full state: {"status": "final", "version": "62", "participants": [0, 1], "keep_alives": ["/torchelastic/p2p/run_s-e5897b7-3-7-1-5-e/rdzv/v_62/rank_1", "/torchelastic/p2p/run_s-e5897b7-3-7-1-5-e/rdzv/v_62/rank_0"], "num_workers_waiting": 1}
+INFO 2020-12-08 12:04:51,704 Keep-alive key /torchelastic/p2p/run_s-e5897b7-3-7-1-5-e/rdzv/v_62/rank_1 is not renewed.
+INFO 2020-12-08 12:04:51,704 Rendevous version 62 is incomplete. 
+INFO 2020-12-08 12:04:51,704 Attempting to destroy it.
+INFO 2020-12-08 12:04:51,708 Destroyed rendezvous version 62 successfully.
+INFO 2020-12-08 12:04:51,708 Previously existing rendezvous state changed. Will re-try joining.
+INFO 2020-12-08 12:04:51,708 Attempting to join next rendezvous
+INFO 2020-12-08 12:04:51,718 New rendezvous state created: {'status': 'joinable', 'version': '63', 'participants': []}
+INFO 2020-12-08 12:04:51,821 Joined rendezvous version 63 as rank 1. Full state: {'status': 'frozen', 'version': '63', 'participants': [0, 1], 'keep_alives': []}
+INFO 2020-12-08 12:04:51,822 Waiting for remaining peers.
+INFO 2020-12-08 12:04:51,824 All peers arrived. Confirming membership.
+INFO 2020-12-08 12:04:51,891 Waiting for confirmations from all peers.
+INFO 2020-12-08 12:04:51,894 Rendezvous version 63 is complete. Final state: {'status': 'final', 'version': '63', 'participants': [0, 1], 'keep_alives': ['/torchelastic/p2p/run_s-e5897b7-3-7-1-5-e/rdzv/v_63/rank_0', '/torchelastic/p2p/run_s-e5897b7-3-7-1-5-e/rdzv/v_63/rank_1'], 'num_workers_waiting': 0}
+INFO 2020-12-08 12:04:51,894 Creating EtcdStore as the c10d::Store implementation
+[INFO] 2020-12-08 12:04:51,901 api: [default] Rendezvous complete for workers.
 Result:
 	restart_count=0
 	group_rank=1
@@ -104,13 +112,13 @@ Result:
 	rank stride=1
 	assigned global_ranks=[1]
 	master_addr=s-e5897b7-3-7-1-5-e-worker-1
-	master_port=36573
+	master_port=42739
 
-[INFO] 2020-12-08 08:27:01,800 api: [default] Starting worker group
+[INFO] 2020-12-08 12:04:51,901 api: [default] Starting worker group
 ============================= test session starts ==============================
 platform linux -- Python 3.7.9, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python
 cachedir: .pytest_cache
-rootdir: /repo, configfile: setup.cfg
+rootdir: /pytorch-lightning, configfile: setup.cfg
 plugins: hydra-core-1.0.4
 collecting ... collected 1 item
 
@@ -122,7 +130,54 @@ initializing ddp: GLOBAL_RANK: 1, MEMBER: 2/2
 Missing logger folder: /tmp/pytest-of-root/pytest-0/test_logging_sync_dist_true_dd0/lightning_logs
 tests/backends/test_multi_nodes_gpu.py::test_logging_sync_dist_true_ddp PASSED
 
-============================== 1 passed in 3.67s ===============================
-[INFO] 2020-12-08 08:27:11,823 api: [default] All workers successfully finished.
+============================== 1 passed in 4.75s ===============================
+[INFO] 2020-12-08 12:05:01,924 api: [default] All workers successfully finished.
 Coverage.py warning: No data was collected. (no-data-collected)
-\n||| END PYTEST LOGS |||\n
+[INFO] 2020-12-08 12:05:02,907 launch: Running torchelastic.distributed.launch with args: ['/usr/local/lib/python3.7/dist-packages/torchelastic/distributed/launch.py', '--nnodes=2', '--nproc_per_node=1', '--rdzv_id=s-e5897b7-3-7-1-5-e', '--rdzv_backend=etcd', '--rdzv_endpoint=10.100.121.241:2379', '-m', 'pytest', '--verbose', '--capture=no', './tests/backends/test_multi_nodes_gpu.py::test__validation_step__log']
+INFO 2020-12-08 12:05:02,915 Etcd machines: ['http://0.0.0.0:2379']
+[INFO] 2020-12-08 12:05:02,925 launch: Using nproc_per_node=1.
+[INFO] 2020-12-08 12:05:03,499 api: [default] starting workers for function: wrapper_fn
+[INFO] 2020-12-08 12:05:03,499 api: [default] Rendezvous'ing worker group
+INFO 2020-12-08 12:05:03,500 Attempting to join next rendezvous
+INFO 2020-12-08 12:05:03,505 Observed existing rendezvous state: {'status': 'final', 'version': '63', 'participants': [0, 1], 'keep_alives': ['/torchelastic/p2p/run_s-e5897b7-3-7-1-5-e/rdzv/v_63/rank_0', '/torchelastic/p2p/run_s-e5897b7-3-7-1-5-e/rdzv/v_63/rank_1'], 'num_workers_waiting': 0}
+INFO 2020-12-08 12:05:03,590 Added self to waiting list. Rendezvous full state: {"status": "final", "version": "63", "participants": [0, 1], "keep_alives": ["/torchelastic/p2p/run_s-e5897b7-3-7-1-5-e/rdzv/v_63/rank_0", "/torchelastic/p2p/run_s-e5897b7-3-7-1-5-e/rdzv/v_63/rank_1"], "num_workers_waiting": 1}
+INFO 2020-12-08 12:05:12,349 Keep-alive key /torchelastic/p2p/run_s-e5897b7-3-7-1-5-e/rdzv/v_63/rank_0 is not renewed.
+INFO 2020-12-08 12:05:12,349 Rendevous version 63 is incomplete. 
+INFO 2020-12-08 12:05:12,349 Attempting to destroy it.
+INFO 2020-12-08 12:05:12,353 Rendezvous attempt failed, will retry. Reason: Key not found : /torchelastic/p2p/run_s-e5897b7-3-7-1-5-e/rdzv/active_version
+INFO 2020-12-08 12:05:13,354 Attempting to join next rendezvous
+INFO 2020-12-08 12:05:13,358 Observed existing rendezvous state: {'status': 'joinable', 'version': '64', 'participants': [0]}
+INFO 2020-12-08 12:05:13,396 Joined rendezvous version 64 as rank 1. Full state: {'status': 'frozen', 'version': '64', 'participants': [0, 1], 'keep_alives': []}
+INFO 2020-12-08 12:05:13,396 Waiting for remaining peers.
+INFO 2020-12-08 12:05:13,398 All peers arrived. Confirming membership.
+INFO 2020-12-08 12:05:13,416 Waiting for confirmations from all peers.
+INFO 2020-12-08 12:05:13,499 Rendezvous version 64 is complete. Final state: {'status': 'final', 'version': '64', 'participants': [0, 1], 'keep_alives': ['/torchelastic/p2p/run_s-e5897b7-3-7-1-5-e/rdzv/v_64/rank_1', '/torchelastic/p2p/run_s-e5897b7-3-7-1-5-e/rdzv/v_64/rank_0'], 'num_workers_waiting': 0}
+INFO 2020-12-08 12:05:13,499 Creating EtcdStore as the c10d::Store implementation
+[INFO] 2020-12-08 12:05:13,508 api: [default] Rendezvous complete for workers.
+Result:
+	restart_count=0
+	group_rank=1
+	group_world_size=2
+	rank stride=1
+	assigned global_ranks=[1]
+	master_addr=s-e5897b7-3-7-1-5-e-worker-1
+	master_port=45385
+
+[INFO] 2020-12-08 12:05:13,508 api: [default] Starting worker group
+============================= test session starts ==============================
+platform linux -- Python 3.7.9, pytest-6.1.2, py-1.9.0, pluggy-0.13.1 -- /usr/bin/python
+cachedir: .pytest_cache
+rootdir: /pytorch-lightning, configfile: setup.cfg
+plugins: hydra-core-1.0.4
+collecting ... collected 1 item
+
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+Using environment variable GROUP_RANK for node rank (1).
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+initializing ddp: GLOBAL_RANK: 1, MEMBER: 2/2
+Missing logger folder: /tmp/pytest-of-root/pytest-1/test__validation_step__log0/lightning_logs
+tests/backends/test_multi_nodes_gpu.py::test__validation_step__log PASSED
+
+============================== 1 passed in 4.74s ===============================
+[INFO] 2020-12-08 12:05:23,533 api: [default] All workers successfully finished.
