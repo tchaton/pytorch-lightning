@@ -18,9 +18,10 @@ name: Multi Nodes GPU Tests
 #  15. Apply Multi Node Testing
 #  16. Wait 120 secs
 #  17. Listen to Jobs Logging
-#  18. Upload coverage results
-#  19. Upload coverage to Codecov
-#  20. Delete Group Node
+#  18. Statistics
+#  19. Upload coverage results
+#  20. Upload coverage to Codecov
+#  21. Delete Group Node
 
 #on:
 #  pull_request:
@@ -92,15 +93,6 @@ jobs:
         echo "::set-output name=PYTHON_VERSION_DASH::$(echo '${{ matrix.python-version }}' | tr . - )"
         echo "::set-output name=PYTORCH_VERSION_DASH::$(echo '${{ matrix.pytorch-version }}' | tr . - )"
     
-    #- uses: whoan/docker-build-with-cache-action@v5
-    #  with:
-    #    registry: ${{ secrets.AWS_ACCOUNT }}.dkr.ecr.us-east-2.amazonaws.com
-    #    image_name: multi-nodes-gpu-testing
-    #    image_tag: ${{ github.event.base_ref }}${{ matrix.python-version }}
-    #    push_git_tag: true
-    #    dockerfile: ./dockers/multi-gpu-tests/Dockerfile
-    #    build_extra_args: "--build-arg PYTHON_VERSION=${{ matrix.python-version }}"
-
     - name: Update Test Configuration File
       run: |
         python -c "fname = './.github/multi-nodes/multi-nodes-gpu.yaml' ; req = open(fname).read().replace('{PYTHON_VERSION}', '${{ matrix.python-version }}').replace('{PYTHON_VERSION_DASH}', '${{ steps.job.outputs.PYTHON_VERSION_DASH }}').replace('{SHA}', '${{ steps.vars.outputs.SHA }}').replace('{PYTORCH_VERSION}', '${{ matrix.pytorch-version }}').replace('{PYTORCH_VERSION_DASH}', '${{ steps.job.outputs.PYTORCH_VERSION_DASH }}').replace('{NODES}', '$NODES').replace('{NUM_GPUS}', '$NUM_GPUS') ; open(fname, 'w').write(req)"
@@ -112,7 +104,6 @@ jobs:
         sudo mv /tmp/eksctl /usr/local/bin
       shell: bash
 
-    # eksclt create cluster --name=lightning-torchelastic --node-type=m5.xlarge --region=us-east-2 --nodes=2
     - name: Create Gpu Node Pool
       run: |
         aws eks --region $REGION update-kubeconfig --name $AWS_CLUSTER
@@ -176,7 +167,7 @@ jobs:
       if: success()
       run: |
         mv ./xx01 coverage
-        cat coverage
+        coverage report
 
     - name: Upload coverage results
       uses: actions/upload-artifact@v2
