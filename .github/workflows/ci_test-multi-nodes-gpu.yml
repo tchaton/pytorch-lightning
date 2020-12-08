@@ -166,11 +166,11 @@ jobs:
     - name: Statistics
       if: success()
       run: |
-        mv ./xx01 coverage
+        mkdir .coverage
+        mv ./xx01 .coverage
         # TODO: add human readable report
-        cat coverage
-        #  sudo pip install pycobertura
-        #  pycobertura show coverage.xml
+        python -m pip install coverage
+        coverage report
 
     - name: Upload coverage results
       uses: actions/upload-artifact@v2
