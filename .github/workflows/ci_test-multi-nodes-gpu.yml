@@ -172,6 +172,12 @@ jobs:
         if grep -q '<?xml version="1.0" ?>' /tmp/full_output.txt ; then csplit /tmp/full_output.txt '/<?xml version="1.0" ?>/'; else mv /tmp/full_output.txt xx00; fi && \
         cat xx00
 
+    - name: Statistics
+      if: success()
+      run: |
+        mv ./xx01 coverage
+        cat coverage
+
     - name: Upload coverage results
       uses: actions/upload-artifact@v2
       with:
