@@ -169,6 +169,8 @@ jobs:
       run: |
         cat ./xx01  | tail -n +2 | base64 --decode > /home/runner/work/pytorch-lightning/.coverage 
         # TODO: add human readable report
+        echo $PWD
+        cd pytorch-lightning
         python -m pip install coverage
         coverage report
 
