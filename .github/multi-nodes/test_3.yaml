@@ -1,0 +1,48 @@
+apiVersion: elastic.pytorch.org/v1alpha1
+kind: ElasticJob
+metadata:
+  name: s-e5897b7-3-7-1-5-e
+  namespace: elastic-job
+spec:
+  # Use "etcd-service:2379" if you already apply etcd.yaml
+  rdzvEndpoint: etcd://10.100.121.241:2379/s-e5897b7-3-7-1-5-e?min_workers=2&max_workers=2
+  minReplicas: 2
+  maxReplicas: 2
+  replicaSpecs:
+    Worker:
+      replicas: 2
+      restartPolicy: ExitCode
+      template:
+        apiVersion: v1
+        kind: Pod
+        spec:
+          containers:
+            - name: s-e5897b7-3-7-1-5-e
+              image: pytorchlightning/pytorch_lightning:base-cuda-py3.7-torch1.5
+              imagePullPolicy: Always
+              command: 
+              - bash 
+              - -ce
+              - | 
+                mkdir -p /home/runner/work/ && cd /home/runner/work/
+                # mkdir -p /Users/thomas/Documents/GitHub/forked/ && cd /Users/thomas/Documents/GitHub/forked/
+                git clone https://github.com/tchaton/pytorch-lightning.git
+                cd pytorch-lightning
+                echo $PWD
+                git fetch --all
+                git checkout 4e06771
+                pip install -e .
+                pip install torchelastic
+                export PL_RUNNING_SPECIAL_TESTS=1
+                DEFAULTS_FIRST="-m torchelastic.distributed.launch --nnodes=2 --nproc_per_node=1 --rdzv_id=s-e5897b7-3-7-1-5-e --rdzv_backend=etcd --rdzv_endpoint=10.100.121.241:2379  -m coverage run --source pytorch_lightning -m pytest --verbose --capture=no"
+                DEFAULTS_AFTER="-m torchelastic.distributed.launch --nnodes=2 --nproc_per_node=1 --rdzv_id=s-e5897b7-3-7-1-5-e --rdzv_backend=etcd --rdzv_endpoint=10.100.121.241:2379  -m coverage run --source pytorch_lightning -a -m pytest --verbose --capture=no"
+                # special tests list
+                python ${DEFAULTS_FIRST} ./tests/backends/test_multi_nodes_gpu.py::test_logging_sync_dist_true_ddp
+                python ${DEFAULTS_AFTER} ./tests/backends/test_multi_nodes_gpu.py::test__validation_step__log
+                coverage report
+                # special tests list
+                echo "END_TOKEN"
+                cat .coverage | base64
+              resources:
+                limits:
+                  nvidia.com/gpu: 1
