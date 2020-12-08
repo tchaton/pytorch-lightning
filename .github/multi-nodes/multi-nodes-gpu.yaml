@@ -32,8 +32,8 @@ spec:
                 pip install -e .
                 pip install torchelastic
                 export PL_RUNNING_SPECIAL_TESTS=1
-                DEFAULTS_FIRST="-m coverage run --source pytorch_lightning -m torchelastic.distributed.launch --nnodes=2 --nproc_per_node=1 --rdzv_id=s-{SHA}-{PYTHON_VERSION_DASH}-{PYTORCH_VERSION_DASH}-e --rdzv_backend=etcd --rdzv_endpoint={TCP_ADDRESS} -m pytest --verbose --capture=no"
-                DEFAULTS_AFTER="-m coverage run --source pytorch_lightning -a -m torchelastic.distributed.launch --nnodes=2 --nproc_per_node=1 --rdzv_id=s-{SHA}-{PYTHON_VERSION_DASH}-{PYTORCH_VERSION_DASH}-e --rdzv_backend=etcd --rdzv_endpoint={TCP_ADDRESS} -m pytest --verbose --capture=no"
+                DEFAULTS_FIRST="-m torchelastic.distributed.launch --nnodes=2 --nproc_per_node=1 --rdzv_id=s-{SHA}-{PYTHON_VERSION_DASH}-{PYTORCH_VERSION_DASH}-e --rdzv_backend=etcd --rdzv_endpoint={TCP_ADDRESS} -m coverage run --source pytorch_lightning -m pytest --verbose --capture=no"
+                DEFAULTS_AFTER="-m torchelastic.distributed.launch --nnodes=2 --nproc_per_node=1 --rdzv_id=s-{SHA}-{PYTHON_VERSION_DASH}-{PYTORCH_VERSION_DASH}-e --rdzv_backend=etcd --rdzv_endpoint={TCP_ADDRESS} -m coverage run --source pytorch_lightning -a -m pytest --verbose --capture=no"
                 
                 # special tests list
                 python ${DEFAULTS_FIRST} ./tests/backends/test_multi_nodes_gpu.py::test_logging_sync_dist_true_ddp
