@@ -64,3 +64,64 @@ def test_logging_sync_dist_true_ddp(tmpdir):
 
     assert trainer.logged_metrics['foo'] == fake_result
     assert trainer.logged_metrics['bar'] == fake_result
+
+
+@pytest.mark.skipif(not os.getenv("PL_RUNNING_SPECIAL_TESTS", '0') == '1', reason="test should be run outside of pytest")
+def test__validation_step__log(tmpdir):
+    """
+    Tests that validation_step can log
+    """
+    os.environ['PL_DEV_DEBUG'] = '1'
+
+    class TestModel(DeterministicModel):
+        def training_step(self, batch, batch_idx):
+            acc = self.step(batch, batch_idx)
+            acc = acc + batch_idx
+            self.log('a', acc, on_step=True, on_epoch=True)
+            self.log('a2', 2)
+
+            self.training_step_called = True
+            return acc
+
+        def validation_step(self, batch, batch_idx):
+            acc = self.step(batch, batch_idx)
+            acc = acc + batch_idx
+            self.log('b', acc, on_step=True, on_epoch=True)
+            self.training_step_called = True
+
+        def backward(self, loss, optimizer, optimizer_idx):
+            return LightningModule.backward(self, loss, optimizer, optimizer_idx)
+
+    model = TestModel()
+    model.validation_step_end = None
+    model.validation_epoch_end = None
+
+    trainer = Trainer(
+        default_root_dir=tmpdir,
+        limit_train_batches=2,
+        limit_val_batches=2,
+        max_epochs=2,
+        log_every_n_steps=1,
+        weights_summary=None,
+    )
+    trainer.fit(model)
+
+    # make sure all the metrics are available for callbacks
+    expected_logged_metrics = {
+        'a2',
+        'a_step',
+        'a_epoch',
+        'b_step/epoch_0',
+        'b_step/epoch_1',
+        'b_epoch',
+        'epoch',
+    }
+    logged_metrics = set(trainer.logged_metrics.keys())
+    assert expected_logged_metrics == logged_metrics
+
+    # we don't want to enable val metrics during steps because it is not something that users should do
+    # on purpose DO NOT allow step_b... it's silly to monitor val step metrics
+    callback_metrics = set(trainer.callback_metrics.keys())
+    callback_metrics.remove('debug_epoch')
+    expected_cb_metrics = {'a', 'a2', 'b', 'a_epoch', 'b_epoch', 'a_step'}
+    assert expected_cb_metrics == callback_metrics

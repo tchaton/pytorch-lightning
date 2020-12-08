@@ -1,11 +1,11 @@
 apiVersion: elastic.pytorch.org/v1alpha1
 kind: ElasticJob
 metadata:
-  name: s-80af890-3-7-1-5-e
+  name: s-e5897b7-3-7-1-5-e
   namespace: elastic-job
 spec:
   # Use "etcd-service:2379" if you already apply etcd.yaml
-  rdzvEndpoint: etcd://10.100.121.241:2379/s-80af890-3-7-1-5-e?min_workers=2&max_workers=2
+  rdzvEndpoint: etcd://10.100.121.241:2379/s-e5897b7-3-7-1-5-e?min_workers=2&max_workers=2
   minReplicas: 2
   maxReplicas: 2
   replicaSpecs:
@@ -17,7 +17,7 @@ spec:
         kind: Pod
         spec:
           containers:
-            - name: s-80af890-3-7-1-5-e
+            - name: s-e5897b7-3-7-1-5-e
               image: pytorchlightning/pytorch_lightning:base-cuda-py3.7-torch1.5
               imagePullPolicy: Always
               command: 
@@ -27,15 +27,16 @@ spec:
                 git clone https://github.com/tchaton/pytorch-lightning.git /repo
                 cd /repo
                 git fetch --all
-                git checkout 80af890
+                git checkout e5897b7
                 pip install -e .
                 pip install torchelastic
                 export PL_RUNNING_SPECIAL_TESTS=1
-                DEFAULTS="-m torchelastic.distributed.launch --nnodes=2 --nproc_per_node=1 --rdzv_id=s-80af890-3-7-1-5-e --rdzv_backend=etcd --rdzv_endpoint=10.100.121.241:2379 -m coverage run --source pytorch_lightning -a -m pytest --verbose --capture=no"
+                DEFAULTS_FIRST="-m coverage run --source pytorch_lightning -m torchelastic.distributed.launch --nnodes=2 --nproc_per_node=1 --rdzv_id=s-e5897b7-3-7-1-5-e --rdzv_backend=etcd --rdzv_endpoint=10.100.121.241:2379 -m pytest --verbose --capture=no"
+                DEFAULTS_AFTER="-m coverage run --source pytorch_lightning -a -m torchelastic.distributed.launch --nnodes=2 --nproc_per_node=1 --rdzv_id=s-e5897b7-3-7-1-5-e --rdzv_backend=etcd --rdzv_endpoint=10.100.121.241:2379 -m pytest --verbose --capture=no"
                 # special tests list
-                python ${DEFAULTS} ./tests/backends/test_multi_nodes_gpu.py::test_logging_sync_dist_true_cpu
+                python ${DEFAULTS_FIRST} ./tests/backends/test_multi_nodes_gpu.py::test_logging_sync_dist_true_ddp
+                python ${DEFAULTS_FIRST} ./tests/backends/test_multi_nodes_gpu.py::test_logging_sync_dist_true_ddp
                 # special tests list
-                echo "\n||| END PYTEST LOGS |||\n"
                 coverage xml
                 cat coverage.xml | tr -d '\t'
                 echo "\n||| TEST END |||\n"
