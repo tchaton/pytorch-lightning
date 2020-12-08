@@ -24,8 +24,9 @@ spec:
               - bash 
               - -ce
               - | 
-                git clone https://github.com/tchaton/pytorch-lightning.git /repo
-                cd /repo
+                mkdir -p /home/runner/work/pytorch-lightning && cd /home/runner/work/pytorch-lightning
+                git clone https://github.com/tchaton/pytorch-lightning.git
+                cd /pytorch-lightning
                 git fetch --all
                 git checkout {SHA}
                 pip install -e .

@@ -167,9 +167,9 @@ jobs:
     - name: Statistics
       if: success()
       run: |
-        cat ./xx01  | tail -n +2 | base64 --decode > /home/runner/work/pytorch-lightning/.coverage 
+        cat ./xx01  | tail -n +2 | base64 --decode > /home/runner/work/pytorch-lightning/pytorch-lightning/.coverage 
         python -m pip install coverage
-        cd  /home/runner/work/pytorch-lightning/ && coverage report
+        cd  /home/runner/work/pytorch-lightning/pytorch-lightning && coverage report
 
     - name: Upload coverage results
       uses: actions/upload-artifact@v2
