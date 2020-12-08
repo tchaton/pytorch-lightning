@@ -24,8 +24,11 @@ spec:
               - bash 
               - -ce
               - | 
+                echo $PWD
+                mkdir -p home/runner/work && cd home/runner/work
                 git clone https://github.com/tchaton/pytorch-lightning.git
                 cd pytorch-lightning
+                echo $PWD
                 git fetch --all
                 git checkout 4e06771
                 pip install -e .
