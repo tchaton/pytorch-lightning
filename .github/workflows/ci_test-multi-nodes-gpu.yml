@@ -175,7 +175,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: coverage-TPU
-        path: /home/runner/work/pytorch-lightning/pytorch-lightning/.coverage
+        path: .coverage
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
@@ -184,7 +184,7 @@ jobs:
       if: always()
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        file: /home/runner/work/pytorch-lightning/pytorch-lightning/.coverage
+        file: .coverage
         flags: tpu,pytest
         name: TPU-coverage
         fail_ci_if_error: true
