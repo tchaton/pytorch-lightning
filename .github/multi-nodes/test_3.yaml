@@ -27,7 +27,7 @@ spec:
                 git clone https://github.com/tchaton/pytorch-lightning.git /repo
                 cd /repo
                 git fetch --all
-                git checkout e358582
+                git checkout 6a4cbd0
                 pip install -e .
                 pip install torchelastic
                 export PL_RUNNING_SPECIAL_TESTS=1
