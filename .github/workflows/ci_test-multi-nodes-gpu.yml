@@ -160,14 +160,16 @@ jobs:
         # while [ $i -lt $MAX_CHECKS ]; do ((i++)); if kubectl logs ${{ steps.job.outputs.ID_NAME }}-worker-0 -n elastic-job | grep -i "error\|failed"; then status_code=1 && break; elif kubectl logs ${{ steps.job.outputs.ID }}-worker-0 -n elastic-job | grep "TEST END"; then status_code=0 && break; else printf "." ; fi; sleep $CHECK_SPEEP; done && \
         # echo "Done waiting. Job status code: $status_code" && \
         kubectl logs ${{ steps.job.outputs.ID_NAME }}-worker-0 -n elastic-job > /tmp/full_output.txt
-        if grep -q '<?xml version="1.0" ?>' /tmp/full_output.txt ; then csplit /tmp/full_output.txt '/<?xml version="1.0" ?>/'; else mv /tmp/full_output.txt xx00; fi && \
+        if grep -q 'END_TOKEN' /tmp/full_output.txt ; then csplit /tmp/full_output.txt '/END_TOKEN/'; else mv /tmp/full_output.txt xx00; fi && \
         cat xx00
 
     - name: Statistics
       if: success()
       run: |
-        mkdir .coverage
-        mv ./xx01 coverage.xml
+        git clone https://github.com/tchaton/pytorch-lightning.git
+        cd pytorch-lightning
+        git checkout ${{ steps.vars.outputs.SHA }}
+        cat ./xx01  | tail -n +2 | base64 --decode > .coverage 
         # TODO: add human readable report
         python -m pip install coverage
         coverage report

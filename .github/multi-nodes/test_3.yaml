@@ -24,10 +24,10 @@ spec:
               - bash 
               - -ce
               - | 
-                git clone https://github.com/tchaton/pytorch-lightning.git /repo
-                cd /repo
+                git clone https://github.com/tchaton/pytorch-lightning.git
+                cd pytorch-lightning
                 git fetch --all
-                git checkout 6a4cbd0
+                git checkout 4e06771
                 pip install -e .
                 pip install torchelastic
                 export PL_RUNNING_SPECIAL_TESTS=1
@@ -36,10 +36,10 @@ spec:
                 # special tests list
                 python ${DEFAULTS_FIRST} ./tests/backends/test_multi_nodes_gpu.py::test_logging_sync_dist_true_ddp
                 python ${DEFAULTS_AFTER} ./tests/backends/test_multi_nodes_gpu.py::test__validation_step__log
+                
                 # special tests list
-                echo "\n||| END PYTEST LOGS |||\n"
-                coverage xml
-                cat coverage.xml | tr -d '\t'
+                echo "END_TOKEN"
+                cat .coverage | base64
               resources:
                 limits:
                   nvidia.com/gpu: 1

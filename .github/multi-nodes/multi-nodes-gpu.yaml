@@ -24,8 +24,8 @@ spec:
               - bash 
               - -ce
               - | 
-                git clone https://github.com/tchaton/pytorch-lightning.git /repo
-                cd /repo
+                git clone https://github.com/tchaton/pytorch-lightning.git
+                cd pytorch-lightning
                 git fetch --all
                 git checkout {SHA}
                 pip install -e .
@@ -41,8 +41,7 @@ spec:
                 # special tests list
                 
                 echo "\n||| END PYTEST LOGS |||\n"
-                coverage xml
-                cat coverage.xml | tr -d '\t'
+                cat .coverage | base64
               resources:
                 limits:
                   nvidia.com/gpu: {NUM_GPUS}
