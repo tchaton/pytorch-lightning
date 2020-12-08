@@ -162,10 +162,10 @@ jobs:
         if grep -q '<?xml version="1.0" ?>' /tmp/full_output.txt ; then csplit /tmp/full_output.txt '/<?xml version="1.0" ?>/'; else mv /tmp/full_output.txt xx00; fi && \
         cat xx00
 
-        - name: Upload coverage results
+      - name: Upload coverage results
         uses: actions/upload-artifact@v2
         with:
-          name: coverage-TPU
+          name: coverage-multi-nodes
           path: coverage
   
     - name: Upload coverage to Codecov
@@ -176,8 +176,8 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: coverage
-        flags: tpu,pytest
-        name: TPU-coverage
+        flags: multi-nodes,pytest
+        name: multi-nodes-coverage
         fail_ci_if_error: true
 
     - name: Delete Group Node
