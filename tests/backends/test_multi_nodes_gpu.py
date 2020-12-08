@@ -73,9 +73,9 @@ def test__validation_step__log(tmpdir):
     """
     os.environ['PL_DEV_DEBUG'] = '1'
 
-    class TestModel(DeterministicModel):
+    class TestModel(BoringModel):
         def training_step(self, batch, batch_idx):
-            acc = self.step(batch, batch_idx)
+            acc = self.step(batch)
             acc = acc + batch_idx
             self.log('a', acc, on_step=True, on_epoch=True)
             self.log('a2', 2)
@@ -84,7 +84,7 @@ def test__validation_step__log(tmpdir):
             return acc
 
         def validation_step(self, batch, batch_idx):
-            acc = self.step(batch, batch_idx)
+            acc = self.step(batch)
             acc = acc + batch_idx
             self.log('b', acc, on_step=True, on_epoch=True)
             self.training_step_called = True
@@ -103,6 +103,9 @@ def test__validation_step__log(tmpdir):
         max_epochs=2,
         log_every_n_steps=1,
         weights_summary=None,
+        accelerator="ddp",
+        gpus=1,
+        num_nodes=2,
     )
     trainer.fit(model)
 

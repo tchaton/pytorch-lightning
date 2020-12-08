@@ -4,14 +4,23 @@ name: Multi Nodes GPU Tests
 #  1. Checkout Pytorch Lightning
 #  2. Set up Python
 #  3. Configure AWS Credentials
-#  4. Update Test Configuration File
-#  5. Clone Elastic repo
-#  6. Create node group
-#  7. Apply elastic kukeclt cmd
-#  8. Launch multi-node-test.yaml
-#  9. Use kukeclt to get logs
-#  11. Print logs
-#  12. Upload coverage.
+#  4. Install AWS Client
+#  5. Get Current Sha Commit
+#  6. Create Job Name
+#  7. Update Test Configuration File
+#  8. Install EKSClient
+#  9. Create Gpu Node Pool
+#  10. Check Current Node Pool | Current Elatic Pods
+#  11. Apply Elastic 
+#  12. Wait 5 sec
+#  13. Find ETCD TCP Address
+#  14. Update Test Configuration File
+#  15. Apply Multi Node Testing
+#  16. Wait 120 secs
+#  17. Listen to Jobs Logging
+#  18. Upload coverage results
+#  19. Upload coverage to Codecov
+#  20. Delete Group Node
 
 #on:
 #  pull_request:
@@ -156,6 +165,7 @@ jobs:
     - name: Listen to Jobs Logging
       shell: bash
       run: |
+        # todo: Enable automatic checking.
         # while [ $i -lt $MAX_CHECKS ]; do ((i++)); if kubectl logs ${{ steps.job.outputs.ID_NAME }}-worker-0 -n elastic-job | grep -i "error\|failed"; then status_code=1 && break; elif kubectl logs ${{ steps.job.outputs.ID }}-worker-0 -n elastic-job | grep "TEST END"; then status_code=0 && break; else printf "." ; fi; sleep $CHECK_SPEEP; done && \
         # echo "Done waiting. Job status code: $status_code" && \
         kubectl logs ${{ steps.job.outputs.ID_NAME }}-worker-0 -n elastic-job > /tmp/full_output.txt
