@@ -167,7 +167,7 @@ jobs:
       if: success()
       run: |
         mkdir .coverage
-        mv ./xx01 .coverage
+        mv ./xx01 coverage.xml
         # TODO: add human readable report
         python -m pip install coverage
         coverage report
