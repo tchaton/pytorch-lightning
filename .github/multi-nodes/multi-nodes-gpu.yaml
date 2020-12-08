@@ -24,6 +24,7 @@ spec:
               - bash 
               - -ce
               - | 
+                mkdir -p /home/runner/work/ && cd /home/runner/work/
                 git clone https://github.com/tchaton/pytorch-lightning.git
                 cd pytorch-lightning
                 git fetch --all
@@ -39,7 +40,9 @@ spec:
                 python ${DEFAULTS_AFTER} ./tests/backends/test_multi_nodes_gpu.py::test__validation_step__log
 
                 # special tests list
-                
+
+                coverage report
+
                 echo "\n||| END PYTEST LOGS |||\n"
                 cat .coverage | base64
               resources:
