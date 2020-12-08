@@ -162,11 +162,11 @@ jobs:
         if grep -q '<?xml version="1.0" ?>' /tmp/full_output.txt ; then csplit /tmp/full_output.txt '/<?xml version="1.0" ?>/'; else mv /tmp/full_output.txt xx00; fi && \
         cat xx00
 
-      - name: Upload coverage results
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage-multi-nodes
-          path: coverage
+    - name: Upload coverage results
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage-multi-nodes
+        path: coverage
   
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
