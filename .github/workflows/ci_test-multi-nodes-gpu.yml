@@ -167,6 +167,7 @@ jobs:
       if: success()
       run: |
         mv ./xx01 coverage
+        python -m pip install coverage
         coverage report
 
     - name: Upload coverage results
